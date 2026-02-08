@@ -1,0 +1,110 @@
+{
+  "info": {
+    "name": "Chat Backend API",
+    "_postman_id": "test-collection",
+    "description": "Collection for testing chat endpoints, WS, uploads. Use {{baseUrl}}, run login first for session.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"testpass\",\n  \"email\": \"test@example.com\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": { "raw": "{{baseUrl}}/api/auth/register", "host": ["{{baseUrl}}"], "path": ["api", "auth", "register"] }
+      }
+    },
+    {
+      "name": "Login User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.environment.set('username', pm.response.json().user ? pm.response.json().user.username : 'testuser');",
+              "console.log('Session set for:', pm.environment.get('username'));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"testpass\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+      }
+    },
+    {
+      "name": "Get All Users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api", "users"] }
+      }
+    },
+    {
+      "name": "Get User Profile",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "x-username", "value": "{{username}}" }],
+        "url": { "raw": "{{baseUrl}}/api/users/{{username}}", "host": ["{{baseUrl}}"], "path": ["api", "users", "{{username}}"] }
+      }
+    },
+    {
+      "name": "Update Profile",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "x-username", "value": "{{username}}" }],
+        "body": { "mode": "raw", "raw": "{\n  \"bio\": \"Updated bio\",\n  \"avatar\": \"https://example.com/avatar.png\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": { "raw": "{{baseUrl}}/api/users/{{username}}", "host": ["{{baseUrl}}"], "path": ["api", "users", "{{username}}"] }
+      }
+    },
+    {
+      "name": "Get Rooms",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/api/rooms", "host": ["{{baseUrl}}"], "path": ["api", "rooms"] }
+      }
+    },
+    {
+      "name": "Get User Joined Rooms",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "x-username", "value": "{{username}}" }],
+        "url": { "raw": "{{baseUrl}}/api/rooms/user/{{username}}", "host": ["{{baseUrl}}"], "path": ["api", "rooms", "user", "{{username}}"] }
+      }
+    },
+    {
+      "name": "Upload Image",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "x-username", "value": "{{username}}" }],
+        "body": { "mode": "formdata", "formdata": [{ "key": "image", "type": "file", "src": "path/to/test.jpg" }] },
+        "url": { "raw": "{{baseUrl}}/api/upload/image", "host": ["{{baseUrl}}"], "path": ["api", "upload", "image"] }
+      }
+    },
+    {
+      "name": "WebSocket Test (Manual)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "ws://localhost:3000", "host": ["localhost"], "path": [], "query": [] }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "username", "value": "testuser" }
+  ]
+}

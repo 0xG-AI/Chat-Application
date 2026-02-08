@@ -1,0 +1,45 @@
+{
+  "name": "zed-base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/sdk.js",
+  "types": "dist/sdk.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "nodemon --watch src --ext ts --exec \"node --loader ts-node/esm --no-warnings\" src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "test:features": "ts-node tests/testFeatures.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.0.0",
+    "bcryptjs": "^3.0.3",
+    "express": "^5.2.1",
+    "lowdb": "^7.0.1",
+    "multer": "^2.0.2",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.2.2",
+    "@types/supertest": "^6.0.3",
+    "@types/ws": "^8.18.1",
+    "axios": "^1.13.4",
+    "form-data": "^4.0.5",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "ws": "^8.19.0"
+  }
+}
